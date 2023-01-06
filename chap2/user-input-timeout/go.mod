@@ -1,3 +1,3 @@
-module github.com/practicalgo/code/chap2/user-input-timeout
+module github.com/alphajin1/PracticalGo/chap2/user-input-timeout
 
-go 1.16
+go 1.19

@@ -13,7 +13,14 @@
 # User input time-out
 
 - [Listing 2.7](./user-input-timeout/main.go)
+- [Exercise 2.3](./user-input-timeout/main_test.go)
 
 # User signal handling
 
 - [Listing 2.8](./user-signal/main.go)
+
+
+# Remember Go Command
+```bash
+go test -v ./...
+```

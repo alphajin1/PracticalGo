@@ -1,3 +1,3 @@
-module github.com/practicalgo/code/chap2/sub-cmd-arch
+module github.com/alphajin1/PracticalGo/chap2/sub-cmd-arch
 
-go 1.16
+go 1.19

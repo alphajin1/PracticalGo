@@ -59,4 +59,8 @@ func main() {
 		fmt.Fprintln(os.Stdout, err)
 		os.Exit(1)
 	}
+
+	// example
+	// go run main.go cmd-a
+	// go run main.go cmd-b
 }

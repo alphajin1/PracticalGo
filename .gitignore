@@ -1,3 +1,5 @@
 .webapps/recipe15/recipe15
 *application
 *.exe
+.idea
+/chap1/*/cover.out

@@ -6,7 +6,7 @@ import (
 	"io"
 	"os"
 
-	"github.com/practicalgo/code/chap2/sub-cmd-arch/cmd"
+	"github.com/alphajin1/PracticalGo/chap2/sub-cmd-arch/cmd"
 )
 
 var errInvalidSubCommand = errors.New("Invalid sub-command specified")
@@ -21,6 +21,7 @@ func handleCommand(w io.Writer, args []string) error {
 	var err error
 
 	if len(args) < 1 {
+		// 인수로 아무 값도 전달되지 않은 경우
 		err = errInvalidSubCommand
 	} else {
 		switch args[0] {
