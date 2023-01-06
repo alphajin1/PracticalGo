@@ -4,6 +4,7 @@
 - [Listing 1.2](./manual-parse/parse_args_test.go)
 - [Listing 1.3](./manual-parse/validate_args_test.go)
 - [Listing 1.4](./manual-parse/run_cmd_test.go)
+- [Exercise 1.1](./manual-parse/main_test.go)
 
 # Greeter application with flags
 
@@ -18,3 +19,5 @@
 - [Listing 1.8](./flag-improvements/parse_args_test.go)
 - [Listing 1.9](./flag-improvements/run_cmd_test.go)
 - [Test for `validateArgs()` function](./flag-improvements/validate_args_test.go)
+
+

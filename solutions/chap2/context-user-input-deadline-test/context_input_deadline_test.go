@@ -13,7 +13,7 @@ func TestTroubleFunc(t *testing.T) {
 	for i := 1; i <= numIterations; i++ {
 		ctx, cancel := context.WithTimeout(context.Background(), allowedDuration)
 		defer cancel()
-		_, err := getNameContext(ctx, allowedDuration)
+		_, err := getNameContext(ctx)
 		cancelled = append(cancelled, err)
 	}
 	contextExceeded := 0

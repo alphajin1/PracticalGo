@@ -1,3 +1,3 @@
-module github.com/practicalgo/code/chap1/manual-parse
+module github.com/alphajin1/PracticalGo/chap1/manual-parse
 
-go 1.16
+go 1.19
