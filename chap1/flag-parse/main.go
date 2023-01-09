@@ -5,12 +5,14 @@ import (
 	"errors"
 	"flag"
 	"fmt"
+	"html/template"
 	"io"
 	"os"
 )
 
 type config struct {
 	numTimes int
+	outPath  string
 }
 
 func getName(r io.Reader, w io.Writer) (string, error) {
@@ -36,12 +38,44 @@ func greetUser(c config, name string, w io.Writer) {
 	}
 }
 
+func greetUserHTML(c config, name string, w io.Writer) {
+	f, err := os.Create(c.outPath)
+	if err != nil {
+		errors.New("파일 생성 실패")
+	}
+
+	tmpl := `
+				<h1>Nice to meet you {{.Name}}</h1>
+			`
+	t, err := template.New(c.outPath).Parse(tmpl)
+	if err != nil {
+		errors.New("template 생성 실패")
+	}
+
+	output := struct {
+		Name string
+	}{
+		Name: name,
+	}
+
+	for i := 0; i < c.numTimes; i++ {
+		t.Execute(f, output)
+	}
+
+}
+
 func runCmd(r io.Reader, w io.Writer, c config) error {
 	name, err := getName(r, w)
 	if err != nil {
 		return err
 	}
-	greetUser(c, name, w)
+
+	if c.outPath == "" {
+		greetUser(c, name, w)
+	} else {
+		greetUserHTML(c, name, w)
+	}
+
 	return nil
 }
 
@@ -57,6 +91,7 @@ func parseArgs(w io.Writer, args []string) (config, error) {
 	fs := flag.NewFlagSet("greeter", flag.ContinueOnError)
 	fs.SetOutput(w)
 	fs.IntVar(&c.numTimes, "n", 0, "Number of times to greet")
+	fs.StringVar(&c.outPath, "o", "", "생성할 html 파일 경로")
 	err := fs.Parse(args)
 	if err != nil {
 		return c, err

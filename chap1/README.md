@@ -12,6 +12,7 @@
 - [Listing 1.6](./flag-parse/parse_args_test.go)
 - [Test for `runCmd()` function](./flag-parse/run_cmd_test.go)
 - [Test for `validateArgs()` function](./flag-parse/validate_args_test.go)
+- [Exercise 1.2](./flag-parse/main.go)
 
 # Greeter application with flags, positional arguments with additional user interface enhancements
 
