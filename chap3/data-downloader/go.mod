@@ -1,3 +1,3 @@
-module github.com/practicalgo/code/chap3/data-downloader
+module github.com/alphajin1/PracticalGo/chap3/data-downloader
 
-go 1.16
+go 1.19

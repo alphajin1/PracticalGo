@@ -8,9 +8,15 @@ import (
 )
 
 func startTestHTTPServer() *httptest.Server {
-	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprint(w, "Hello World")
-	}))
+	//test 를 제공하는 http server
+	//모든 http 요청에 대해 "Hello World"라는 문자열을 반환하는 catchall handler
+	ts := httptest.NewServer(
+		http.HandlerFunc(
+			func(w http.ResponseWriter, r *http.Request) {
+				fmt.Fprint(w, "Hello World")
+			},
+		),
+	)
 	return ts
 }
 
@@ -29,3 +35,5 @@ func TestFetchRemoteResource(t *testing.T) {
 		t.Errorf("Expected response to be: %s, Got: %s", expected, data)
 	}
 }
+
+//go test -v
