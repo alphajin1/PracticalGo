@@ -1,3 +1,3 @@
-module github.com/practicalgo/code/chap3/pkgregister
+module github.com/alphajin1/PracticalGo/chap3/pkgregister
 
-go 1.16
+go 1.19

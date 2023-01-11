@@ -12,10 +12,14 @@ func startTestPackageServer() *httptest.Server {
 {"name": "package1", "version": "1.1"},
 {"name": "package2", "version": "1.0"}
 ]`
-	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("Content-Type", "application/json")
-		fmt.Fprint(w, pkgData)
-	}))
+	ts := httptest.NewServer(
+		http.HandlerFunc(
+			func(w http.ResponseWriter, r *http.Request) {
+				w.Header().Set("Content-Type", "application/json")
+				fmt.Fprint(w, pkgData)
+			},
+		),
+	)
 
 	return ts
 }
