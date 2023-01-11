@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"io"
 	"net/http"
+	"time"
 )
 
 type pkgData struct {
@@ -18,6 +19,12 @@ type pkgRegisterResult struct {
 	ID       string `json:"id"`
 	Filename string `json:"filename"`
 	Size     int64  `json:"size"`
+}
+
+// 추가
+func createHTTPClientWithTimeout(d time.Duration) *http.Client {
+	client := http.Client{Timeout: d}
+	return &client
 }
 
 func registerPackageData(url string, data pkgData) (pkgRegisterResult, error) {
