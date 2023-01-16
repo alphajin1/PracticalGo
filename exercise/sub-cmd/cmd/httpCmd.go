@@ -5,13 +5,18 @@ import (
 	"fmt"
 	"golang.org/x/exp/slices"
 	"io"
-	"net/http"
-	"os"
 )
+
+type HttpStatus struct {
+	code       int
+	message    string
+	customCode int
+}
 
 type httpConfig struct {
 	url    string
 	verb   string
+	body   string
 	output string
 }
 
@@ -33,11 +38,13 @@ func isPossibleConfig(fs *flag.FlagSet, c *httpConfig) (bool, error) {
 	return true, nil
 }
 
-func HandleHttp(w io.Writer, args []string) error {
+func HandleHttp(w io.Writer, args []string) (HttpStatus, error) {
 	c := httpConfig{}
+	r := HttpStatus{}
 	fs := flag.NewFlagSet("http", flag.ContinueOnError)
 	fs.SetOutput(w)
 	fs.StringVar(&c.verb, "verb", "GET", "HTTP method")
+	fs.StringVar(&c.body, "body", "{}", "Body")
 	fs.StringVar(&c.output, "output", "STDOUT", "Output Format")
 
 	fs.Usage = func() {
@@ -55,40 +62,31 @@ http: <options> server`
 
 	err := fs.Parse(args)
 	if err != nil {
-		return err
+		return r, err
 	}
 
 	_, err = isPossibleConfig(fs, &c)
 	if err != nil {
-		return err
+		return r, err
 	}
 
 	c.url = fs.Arg(0)
-	body, err := fetchRemoteResource(c.url)
-	if err != nil {
-		return err
-	}
 
-	if c.output == "STDOUT" {
-		fmt.Fprintln(w, string(body))
-	} else if c.output == "html" {
-		fName := fmt.Sprintf("output.%s", c.output)
-		f, err := os.OpenFile(fName, os.O_RDWR|os.O_CREATE|os.O_TRUNC, 0644)
+	if c.verb == "GET" {
+		body, err := fetchRemoteResource(c.url)
 		if err != nil {
-			return err
+			return r, err
 		}
 
-		f.Write(body)
+		err = flushOutput(w, body, c.output)
+		if err != nil {
+			return r, err
+		}
 	}
 
-	return nil
-}
+	if c.verb == "POST" {
 
-func fetchRemoteResource(url string) ([]byte, error) {
-	r, err := http.Get(url)
-	if err != nil {
-		return nil, err
 	}
-	defer r.Body.Close()
-	return io.ReadAll(r.Body)
+
+	return r, nil
 }

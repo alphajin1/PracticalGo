@@ -26,7 +26,7 @@ func handleCommand(w io.Writer, args []string) error {
 	} else {
 		switch args[0] {
 		case "http":
-			err = cmd.HandleHttp(w, args[1:])
+			_, err = cmd.HandleHttp(w, args[1:])
 		case "grpc":
 			err = cmd.HandleGrpc(w, args[1:])
 		case "-h":
