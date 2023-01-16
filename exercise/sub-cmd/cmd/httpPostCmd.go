@@ -15,7 +15,9 @@ type pkgData struct {
 }
 
 type pkgRegisterResult struct {
-	ID string `json:"id"`
+	ID       string `json:"id"`
+	Filename string `json:"filename"`
+	Size     int64  `json:"size"`
 }
 
 func registerPackageData(url string, data pkgData) (pkgRegisterResult, error) {

@@ -7,6 +7,8 @@ import (
 )
 
 func TestHandlePostCommand(t *testing.T) {
+	ts := startTestPackageServer()
+	defer ts.Close()
 
 	testConfigs := []struct {
 		args   []string
@@ -14,15 +16,13 @@ func TestHandlePostCommand(t *testing.T) {
 		err    error
 	}{
 		{
-			args: []string{"-verb", "POST", "-upload", "a.txt", "-form-data", "name=MyName", "-form-data", "version=1.0"},
-		},
-		{
-			args: []string{"-verb", "GET", "-url", "https://golang.org/pkg/net/http/"},
+			args: []string{"-verb", "POST", "-url", ts.URL, "-upload", "a.txt", "-form-data", "name=MyName", "-form-data", "version=1.0"},
 		},
 	}
 
 	byteBuf := new(bytes.Buffer)
 	for _, tc := range testConfigs {
+
 		err := HandleHttp(byteBuf, tc.args)
 		if err != nil {
 			t.Fatalf("Error Exist!, %s", err)

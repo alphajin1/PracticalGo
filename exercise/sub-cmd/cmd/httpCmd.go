@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"golang.org/x/exp/slices"
 	"io"
+	"strings"
 )
 
 // Custom Arguments
@@ -86,7 +87,28 @@ http: <options> server`
 	}
 
 	if c.verb == "POST" {
+		m := make(map[string]string)
+		for _, v := range c.formData {
+			parts := strings.Split(v, "=")
+			m[parts[0]] = parts[1]
+		}
 
+		p := pkgData{
+			Name:     m["name"],
+			Version:  m["version"],
+			Filename: c.upload,
+			Bytes:    strings.NewReader("data"),
+		}
+
+		response, err := registerPackageData(c.url, p)
+		if err != nil {
+			return err
+		}
+
+		err = flushOutput(w, []byte(response.ID), c.output)
+		if err != nil {
+			return err
+		}
 	}
 
 	return nil
