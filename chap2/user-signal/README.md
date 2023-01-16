@@ -1,4 +1,6 @@
 # Signals and contextx
 
-Listing 1.20 - listing7.go
-
+예제 
+- Sleep 30 + SIGTERM = "Got signal"
+- Sleep 10 = "정상적으로 종료"
+- Sleep 31 = "signal: killed", TimeoutContext

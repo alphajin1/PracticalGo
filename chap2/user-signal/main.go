@@ -17,7 +17,9 @@ func createContextWithTimeout(d time.Duration) (context.Context, context.CancelF
 }
 
 func setupSignalHandler(w io.Writer, cancelFunc context.CancelFunc) {
+	// 어느 한 시그널을 수신할 경우 시그널 핸들링 코드는 1단계(WithTimeout) 에서 반환된 취소 함수(cancel)을 호출
 	c := make(chan os.Signal, 1)
+	// SIGINT, SIGTERM에 대한 수신채널을 설정
 	signal.Notify(c, syscall.SIGINT, syscall.SIGTERM)
 	go func() {
 		s := <-c

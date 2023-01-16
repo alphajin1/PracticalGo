@@ -35,13 +35,17 @@ func getNameContext(ctx context.Context) (string, error) {
 
 	go func() {
 		name, err = getName(os.Stdin, os.Stdout)
+		// 에러값을 채널에 Write
 		c <- err
 	}()
 
 	select {
+	// 어떤 채널이 먼저 반응하는지에 따라 handling
 	case <-ctx.Done():
+		// ctx 가 종료되는 시점에 호출됨
 		return name, ctx.Err()
 	case err := <-c:
+		// getName 함수가 반환할 때 쓰는 채널
 		return name, err
 	}
 }
@@ -49,6 +53,7 @@ func getNameContext(ctx context.Context) (string, error) {
 func main() {
 	allowedDuration := totalDuration * time.Second
 	ctx, cancel := context.WithTimeout(context.Background(), allowedDuration)
+	// ctx 해제를 위해 호출하는 것
 	defer cancel()
 
 	name, err := getNameContext(ctx)
