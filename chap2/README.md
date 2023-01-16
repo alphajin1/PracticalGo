@@ -1,6 +1,7 @@
 # Sub command example
 
 - [Listing 2.1](./sub-cmd-example/main.go)
+- [Exercise 2.1](./sub-cmd-arch/handle_command_test.go)
 
 # Sub command architecture
 

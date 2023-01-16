@@ -27,6 +27,7 @@ Options:
   -method string
     	Method to call
 `
+	SampleUrl := "https://golang.org/pkg/net/http/"
 	testConfigs := []struct {
 		args   []string
 		output string
@@ -46,6 +47,14 @@ Options:
 			args:   []string{"foo"},
 			err:    errInvalidSubCommand,
 			output: "Invalid sub-command specified\n" + usageMessage,
+		},
+		{ // Exercise 2.1 (?) 왜 연습 문제 1.1의 해결 방법이 관련이 있는걸까?
+			args:   []string{"http", SampleUrl},
+			output: "Executing http command\n",
+		},
+		{
+			args:   []string{"grpc", SampleUrl},
+			output: "Executing grpc command\n",
 		},
 	}
 

@@ -49,4 +49,10 @@ func main() {
 	if err != nil {
 		os.Exit(1)
 	}
+
+	// ./application http https://golang.org/pkg/net/http/
+	// [RESULT] Executing http command
+
+	// ./application grpc https://golang.org/pkg/net/http/
+	// [RESULT] Executing grpc command
 }
