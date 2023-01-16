@@ -9,7 +9,7 @@ import (
 )
 
 type pkgData struct {
-	Name    string `json:"name"`
+	Name    string `json:"name"` // 구조체 태그로, JSON 데이터 중 어느 키값이 해당 필드로 식별되는지를 결정
 	Version string `json:"version"`
 }
 

@@ -2,6 +2,7 @@
 
 - [Listing 3.1](./data-downloader/main.go)
 - [Listing 3.2](./data-downloader/fetch_remote_resource_test.go)
+- [Exercise 3.1](./data-downloader-ex/main.go)
 
 # Querying data from the package server
 
