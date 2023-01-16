@@ -45,7 +45,7 @@ func TestHandleHttp(t *testing.T) {
 	}
 	byteBuf := new(bytes.Buffer)
 	for _, tc := range testConfigs {
-		_, err := HandleHttp(byteBuf, tc.args)
+		err := HandleHttp(byteBuf, tc.args)
 		if tc.err == nil && err != nil {
 			t.Fatalf("Expected nil error, got %v", err)
 		}

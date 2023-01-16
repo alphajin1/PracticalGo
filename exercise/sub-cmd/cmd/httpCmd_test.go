@@ -19,7 +19,7 @@ func TestHandlePostCommand(t *testing.T) {
 
 	byteBuf := new(bytes.Buffer)
 	for _, tc := range testConfigs {
-		_, err := HandleHttp(byteBuf, tc.args)
+		err := HandleHttp(byteBuf, tc.args)
 		if err != nil {
 			t.Fatalf("Error Exist!")
 		}

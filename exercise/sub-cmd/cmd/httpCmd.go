@@ -7,16 +7,9 @@ import (
 	"io"
 )
 
-type HttpStatus struct {
-	code       int
-	message    string
-	customCode int
-}
-
 type httpConfig struct {
 	url    string
 	verb   string
-	body   string
 	output string
 }
 
@@ -38,13 +31,11 @@ func isPossibleConfig(fs *flag.FlagSet, c *httpConfig) (bool, error) {
 	return true, nil
 }
 
-func HandleHttp(w io.Writer, args []string) (HttpStatus, error) {
+func HandleHttp(w io.Writer, args []string) error {
 	c := httpConfig{}
-	r := HttpStatus{}
 	fs := flag.NewFlagSet("http", flag.ContinueOnError)
 	fs.SetOutput(w)
 	fs.StringVar(&c.verb, "verb", "GET", "HTTP method")
-	fs.StringVar(&c.body, "body", "{}", "Body")
 	fs.StringVar(&c.output, "output", "STDOUT", "Output Format")
 
 	fs.Usage = func() {
@@ -62,12 +53,12 @@ http: <options> server`
 
 	err := fs.Parse(args)
 	if err != nil {
-		return r, err
+		return err
 	}
 
 	_, err = isPossibleConfig(fs, &c)
 	if err != nil {
-		return r, err
+		return err
 	}
 
 	c.url = fs.Arg(0)
@@ -75,12 +66,12 @@ http: <options> server`
 	if c.verb == "GET" {
 		body, err := fetchRemoteResource(c.url)
 		if err != nil {
-			return r, err
+			return err
 		}
 
 		err = flushOutput(w, body, c.output)
 		if err != nil {
-			return r, err
+			return err
 		}
 	}
 
@@ -88,5 +79,5 @@ http: <options> server`
 
 	}
 
-	return r, nil
+	return nil
 }
