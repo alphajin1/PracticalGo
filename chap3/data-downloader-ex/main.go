@@ -55,4 +55,7 @@ func main() {
 
 	// ./application grpc https://golang.org/pkg/net/http/
 	// [RESULT] Executing grpc command
+
+	// ./application http -output html https://golang.org/pkg/net/http/
+	// [RESULT] output.html file
 }

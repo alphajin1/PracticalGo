@@ -3,3 +3,4 @@
 *.exe
 .idea
 /chap1/*/cover.out
+/chap3/data-downloader-ex/output.html
