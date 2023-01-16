@@ -1,4 +1,4 @@
-// Listing 1.13: chap1/listing5/cmd/handle_http_test.go
+// Listing 1.13: chap1/listing5/sub-cmd/handle_http_test.go
 package cmd
 
 import (

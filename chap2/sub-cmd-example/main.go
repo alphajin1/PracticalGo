@@ -9,7 +9,7 @@ import (
 
 func handleCmdA(w io.Writer, args []string) error {
 	var v string
-	fs := flag.NewFlagSet("cmd-a", flag.ContinueOnError)
+	fs := flag.NewFlagSet("sub-cmd-a", flag.ContinueOnError)
 	fs.SetOutput(w)
 	fs.StringVar(&v, "verb", "argument-value", "Argument 1")
 	err := fs.Parse(args)
@@ -22,7 +22,7 @@ func handleCmdA(w io.Writer, args []string) error {
 
 func handleCmdB(w io.Writer, args []string) error {
 	var v string
-	fs := flag.NewFlagSet("cmd-b", flag.ContinueOnError)
+	fs := flag.NewFlagSet("sub-cmd-b", flag.ContinueOnError)
 	fs.SetOutput(w)
 	fs.StringVar(&v, "verb", "argument-value", "Argument 1")
 	err := fs.Parse(args)
@@ -34,7 +34,7 @@ func handleCmdB(w io.Writer, args []string) error {
 }
 
 func printUsage(w io.Writer) {
-	fmt.Fprintf(w, "Usage: %s [cmd-a|cmd-b] -h\n", os.Args[0])
+	fmt.Fprintf(w, "Usage: %s [sub-cmd-a|sub-cmd-b] -h\n", os.Args[0])
 	handleCmdA(w, []string{"-h"})
 	handleCmdB(w, []string{"-h"})
 
@@ -47,9 +47,9 @@ func main() {
 		os.Exit(1)
 	}
 	switch os.Args[1] {
-	case "cmd-a":
+	case "sub-cmd-a":
 		err = handleCmdA(os.Stdout, os.Args[2:])
-	case "cmd-b":
+	case "sub-cmd-b":
 		err = handleCmdB(os.Stdout, os.Args[2:])
 	default:
 		printUsage(os.Stdout)
@@ -61,6 +61,6 @@ func main() {
 	}
 
 	// example
-	// go run main.go cmd-a
-	// go run main.go cmd-b
+	// go run main.go sub-cmd-a
+	// go run main.go sub-cmd-b
 }

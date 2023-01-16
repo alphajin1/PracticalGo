@@ -1,4 +1,3 @@
-// Listing 1.13: chap1/listing5/sub-cmd/handle_http_test.go
 package cmd
 
 import (
@@ -7,39 +6,44 @@ import (
 	"testing"
 )
 
-func TestHandleHttp(t *testing.T) {
+func TestHandleGrpc(t *testing.T) {
 	usageMessage := `
-http: A HTTP client.
+grpc: A gRPC client.
 
-http: <options> server
+grpc: <options> server
 
 Options: 
-  -verb string
-    	HTTP method (default "GET")
+  -body string
+    	Body of request
+  -method string
+    	Method to call
 `
 	testConfigs := []struct {
 		args   []string
-		output string
 		err    error
+		output string
 	}{
 		{
 			args: []string{},
 			err:  ErrNoServerSpecified,
 		},
+
 		{
 			args:   []string{"-h"},
 			err:    errors.New("flag: help requested"),
 			output: usageMessage,
 		},
+
 		{
-			args:   []string{"http://localhost"},
+			args:   []string{"-method", "service.host.local/method", "-body", "{}", "http://localhost"},
 			err:    nil,
-			output: "Executing http command\n",
+			output: "Executing grpc command\n",
 		},
 	}
+
 	byteBuf := new(bytes.Buffer)
 	for _, tc := range testConfigs {
-		err := HandleHttp(byteBuf, tc.args)
+		err := HandleGrpc(byteBuf, tc.args)
 		if tc.err == nil && err != nil {
 			t.Fatalf("Expected nil error, got %v", err)
 		}
@@ -51,9 +55,11 @@ Options:
 		if len(tc.output) != 0 {
 			gotOutput := byteBuf.String()
 			if tc.output != gotOutput {
-				t.Errorf("Expected output to be: %#v, Got: %#v", tc.output, gotOutput)
+				t.Fatalf("Expected output to be: %#v, Got: %#v", tc.output, gotOutput)
 			}
 		}
+
 		byteBuf.Reset()
 	}
+
 }

@@ -1,4 +1,3 @@
-// Listing 1.15: chap1/listing5/sub-cmd/grpcCmd.go
 package cmd
 
 import (

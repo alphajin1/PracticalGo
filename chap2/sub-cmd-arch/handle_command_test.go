@@ -1,4 +1,4 @@
-// Listing 2.6: chap2/sub-cmd-arch/handle_command_test.go
+// Listing 2.6: chap2/sub-sub-cmd-arch/handle_command_test.go
 package main
 
 import (

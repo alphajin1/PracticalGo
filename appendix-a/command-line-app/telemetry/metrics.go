@@ -27,12 +27,12 @@ func InitMetrics(statsdAddr string) (MetricReporter, error) {
 }
 
 func (m MetricReporter) ReportDuration(metric DurationMetric) {
-	metricName := "cmd.duration"
+	metricName := "sub-cmd.duration"
 	m.statsd.Histogram(
 		metricName,
 		metric.DurationMs,
 		[]string{
-			fmt.Sprintf("cmd:%s", metric.Cmd),
+			fmt.Sprintf("sub-cmd:%s", metric.Cmd),
 			fmt.Sprintf("success:%v", metric.Success),
 		},
 		1, //sample rate (0-none, 1 - all)

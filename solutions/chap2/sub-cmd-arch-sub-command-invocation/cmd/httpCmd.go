@@ -1,4 +1,4 @@
-// Listing 1.14: chap1/listing5/cmd/httpCmd.go
+// Listing 1.14: chap1/listing5/sub-cmd/httpCmd.go
 package cmd
 
 import (
