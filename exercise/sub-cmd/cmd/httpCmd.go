@@ -7,12 +7,24 @@ import (
 	"io"
 )
 
-type httpConfig struct {
-	url    string
-	verb   string // http Types
-	output string // GET
+// Custom Arguments
+type formDataList []string
 
-	upload string // POST, ex) /path/to/file.pdf
+func (i *formDataList) String() string {
+	return "MyStringRepresentation"
+}
+
+func (i *formDataList) Set(value string) error {
+	*i = append(*i, value)
+	return nil
+}
+
+type httpConfig struct {
+	url      string
+	verb     string // http Types
+	output   string // GET
+	upload   string // POST, ex) /path/to/file.pdf
+	formData formDataList
 }
 
 func isPossibleConfig(fs *flag.FlagSet, c *httpConfig) (bool, error) {
@@ -37,7 +49,7 @@ func HandleHttp(w io.Writer, args []string) error {
 	fs.StringVar(&c.verb, "verb", "GET", "HTTP method")
 	fs.StringVar(&c.output, "output", "STDOUT", "Output Format")
 	fs.StringVar(&c.upload, "upload", "", "Upload FileName")
-
+	fs.Var(&c.formData, "form-data", "Request Form Data")
 	fs.Usage = func() {
 		var usageString = `
 http: A HTTP client.

@@ -14,6 +14,9 @@ func TestHandlePostCommand(t *testing.T) {
 		err    error
 	}{
 		{
+			args: []string{"-verb", "POST", "-upload", "a.txt", "-form-data", "name=MyName", "-form-data", "version=1.0"},
+		},
+		{
 			args: []string{"-verb", "GET", "-url", "https://golang.org/pkg/net/http/"},
 		},
 	}
