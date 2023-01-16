@@ -3,6 +3,7 @@ package cmd
 import (
 	"flag"
 	"fmt"
+	"golang.org/x/exp/slices"
 	"io"
 )
 
@@ -16,6 +17,12 @@ func HandleHttp(w io.Writer, args []string) error {
 	fs := flag.NewFlagSet("http", flag.ContinueOnError)
 	fs.SetOutput(w)
 	fs.StringVar(&v, "verb", "GET", "HTTP method")
+
+	possibleVerb := []string{"GET", "POST", "HEAD"}
+	// err 이면 0 이외에 종료코드 이겠찌...?
+	if !slices.Contains(possibleVerb, v) {
+		return InvalidHttpMethod
+	}
 
 	fs.Usage = func() {
 		var usageString = `
