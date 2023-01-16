@@ -9,8 +9,10 @@ import (
 
 type httpConfig struct {
 	url    string
-	verb   string
-	output string
+	verb   string // http Types
+	output string // GET
+
+	upload string // POST, ex) /path/to/file.pdf
 }
 
 func isPossibleConfig(fs *flag.FlagSet, c *httpConfig) (bool, error) {
@@ -24,10 +26,6 @@ func isPossibleConfig(fs *flag.FlagSet, c *httpConfig) (bool, error) {
 		return false, UnSupportedOutputFormat
 	}
 
-	if fs.NArg() != 1 {
-		return false, ErrNoServerSpecified
-	}
-
 	return true, nil
 }
 
@@ -35,8 +33,10 @@ func HandleHttp(w io.Writer, args []string) error {
 	c := httpConfig{}
 	fs := flag.NewFlagSet("http", flag.ContinueOnError)
 	fs.SetOutput(w)
+	fs.StringVar(&c.url, "url", "", "Request URL")
 	fs.StringVar(&c.verb, "verb", "GET", "HTTP method")
 	fs.StringVar(&c.output, "output", "STDOUT", "Output Format")
+	fs.StringVar(&c.upload, "upload", "", "Upload FileName")
 
 	fs.Usage = func() {
 		var usageString = `
@@ -60,8 +60,6 @@ http: <options> server`
 	if err != nil {
 		return err
 	}
-
-	c.url = fs.Arg(0)
 
 	if c.verb == "GET" {
 		body, err := fetchRemoteResource(c.url)
