@@ -15,24 +15,30 @@ type httpConfig struct {
 	output string
 }
 
-func HandleHttp(w io.Writer, args []string) error {
-	var v string
-	var o string
-	fs := flag.NewFlagSet("http", flag.ContinueOnError)
-	fs.SetOutput(w)
-	fs.StringVar(&v, "verb", "GET", "HTTP method")
-	fs.StringVar(&o, "output", "STDOUT", "Output Format")
-
+func isPossibleConfig(fs *flag.FlagSet, c *httpConfig) (bool, error) {
 	possibleVerb := []string{"GET", "POST", "HEAD"}
-	// err 이면 0 이외에 종료코드 이겠찌...?
-	if !slices.Contains(possibleVerb, v) {
-		return InvalidHttpMethod
+	if !slices.Contains(possibleVerb, c.verb) {
+		return false, UnSupportedHTTPMethod
 	}
 
 	possibleOutput := []string{"STDOUT", "html"}
-	if !slices.Contains(possibleOutput, o) {
-		return UnsupportedOutputFormat
+	if !slices.Contains(possibleOutput, c.output) {
+		return false, UnSupportedOutputFormat
 	}
+
+	if fs.NArg() != 1 {
+		return false, ErrNoServerSpecified
+	}
+
+	return true, nil
+}
+
+func HandleHttp(w io.Writer, args []string) error {
+	c := httpConfig{}
+	fs := flag.NewFlagSet("http", flag.ContinueOnError)
+	fs.SetOutput(w)
+	fs.StringVar(&c.verb, "verb", "GET", "HTTP method")
+	fs.StringVar(&c.output, "output", "STDOUT", "Output Format")
 
 	fs.Usage = func() {
 		var usageString = `
@@ -52,11 +58,11 @@ http: <options> server`
 		return err
 	}
 
-	if fs.NArg() != 1 {
-		return ErrNoServerSpecified
+	_, err = isPossibleConfig(fs, &c)
+	if err != nil {
+		return err
 	}
 
-	c := httpConfig{verb: v, output: o}
 	c.url = fs.Arg(0)
 	body, err := fetchRemoteResource(c.url)
 	if err != nil {
@@ -66,7 +72,8 @@ http: <options> server`
 	if c.output == "STDOUT" {
 		fmt.Fprintln(w, string(body))
 	} else if c.output == "html" {
-		f, err := os.OpenFile("output.html", os.O_RDWR|os.O_CREATE|os.O_TRUNC, 0644)
+		fName := fmt.Sprintf("output.%s", c.output)
+		f, err := os.OpenFile(fName, os.O_RDWR|os.O_CREATE|os.O_TRUNC, 0644)
 		if err != nil {
 			return err
 		}

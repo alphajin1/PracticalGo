@@ -9,7 +9,7 @@ import (
 	"github.com/alphajin1/PracticalGo/exercise/sub-cmd/cmd"
 )
 
-var errInvalidSubCommand = errors.New("Invalid sub-command specified")
+var errInvalidSubCommand = errors.New("invalid sub-command specified")
 
 func printUsage(w io.Writer) {
 	fmt.Fprintf(w, "Usage: mync [http|grpc] -h\n")

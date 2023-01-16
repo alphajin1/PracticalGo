@@ -50,12 +50,8 @@ func main() {
 		os.Exit(1)
 	}
 
+	// 실행 Ex)
 	// ./application http https://golang.org/pkg/net/http/
-	// [RESULT] Executing http command
-
-	// ./application grpc https://golang.org/pkg/net/http/
-	// [RESULT] Executing grpc command
-
-	// ./application http -output html https://golang.org/pkg/net/http/
-	// [RESULT] output.html file
+	// ./application http -verb GET https://golang.org/pkg/net/http/
+	// ./application http -verb GET -output html https://golang.org/pkg/net/http/
 }
