@@ -1,3 +1,3 @@
-module github.com/practicalgo/code/chap5/http-serve-mux
+module github.com/alphajin1/PracticalGo/chap5/http-serve-mux
 
-go 1.16
+go 1.19

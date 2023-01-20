@@ -8,28 +8,25 @@ import (
 )
 
 func apiHandler(w http.ResponseWriter, req *http.Request) {
-	fmt.Fprintf(w, "Hello, world!")
+	fmt.Fprintf(w, "Hello, World!")
 }
 
-func healthCheckHandler(w http.ResponseWriter, req *http.Request) {
+func healthCheckerHandler(w http.ResponseWriter, req *http.Request) {
 	fmt.Fprintf(w, "ok")
 }
 
 func setupHandlers(mux *http.ServeMux) {
-	mux.HandleFunc("/healthz", healthCheckHandler)
+	mux.HandleFunc("/healthz", healthCheckerHandler) // signature : handler func(ResponseWriter, *Request)
 	mux.HandleFunc("/api", apiHandler)
-
 }
 
 func main() {
-
-	listenAddr := os.Getenv("LISTEN_ADDR")
-	if len(listenAddr) == 0 {
-		listenAddr = ":8080"
+	listenAdder := os.Getenv("LISTEN_ADDR")
+	if len(listenAdder) == 0 {
+		listenAdder = ":8080" // 127.0.0.1:8080 사용을 권장
 	}
 
-	mux := http.NewServeMux()
+	mux := http.NewServeMux() // return *ServeMux
 	setupHandlers(mux)
-
-	log.Fatal(http.ListenAndServe(listenAddr, mux))
+	log.Fatal(http.ListenAndServe(listenAdder, mux))
 }
