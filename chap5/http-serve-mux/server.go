@@ -28,5 +28,6 @@ func main() {
 
 	mux := http.NewServeMux() // return *ServeMux
 	setupHandlers(mux)
-	log.Fatal(http.ListenAndServe(listenAdder, mux))
+	m := loggingMiddleware(mux)
+	log.Fatal(http.ListenAndServe(listenAdder, m))
 }

@@ -18,7 +18,7 @@ func TestServer(t *testing.T) {
 		{
 			name:     "index",
 			path:     "/api",
-			expected: "Hello, world!",
+			expected: "Hello, World!",
 		},
 		{name: "healthcheck",
 			path:     "/healthz",
